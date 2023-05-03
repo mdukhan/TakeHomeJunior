@@ -4,6 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -41,7 +43,7 @@ public class MainTest {
 
         Main.main(new String[0]);
 
-        if (expectedRating != null && !expectedRating.equals("")) {
+        if (!expectedRating.isBlank()) {
             assertTrue(outputStreamCaptor.toString().contains(expectedRating));
         }
         else {

@@ -7,10 +7,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Stream;
 
@@ -37,7 +34,7 @@ public class MainTest {
 
     @ParameterizedTest
     @MethodSource("testArguments")
-    void successTest(String input, String expectedRating) {
+    void successTest(String input, String expectedRating) throws IOException {
         final InputStream in = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
         System.setIn(in);
 

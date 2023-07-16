@@ -4,49 +4,54 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 import java.util.function.Supplier;
 
 public class Util {
 
 
-    public static Movie findMoviebyId(List<Movie> movies, String movieId) {
+    public static Movie findMovieById(List<Movie> movies, String movieId) {
         for (Movie movie : movies) {
             if (movie.getMovieId().equals(movieId)) {
                 System.out.println("Es wurde der Film: " + movie.getTitle() + " ausgewählt.");
                 return movie;
             }
         }
-        System.out.println("Sorry! Der FilmId"+ movieId +"wurde leider nicht gefunden.");
+        System.out.println("Sorry! Der FilmID "+ movieId +" wurde leider nicht gefunden.");
         return null;
     }
 
-
     public static double calculateAverageRating(Movie selectedMovie,List<Rating> ratings) {
-        Double avRating=0.0;
+        Double averageRating=0.0;
             if (selectedMovie != null&&!selectedMovie.getTitle().equals("keiner")) {
                     for (Rating rating : ratings) {
                         if (rating.getMovieId().equals(selectedMovie.getMovieId())) {
-                            if (selectedMovie.getRatings() == null) {
-                                selectedMovie.setRatings(new String[]{rating.getRating()});
-                            } else {
-                                selectedMovie.setRatings(Arrays.copyOf(selectedMovie.getRatings(), selectedMovie.getRatings().length + 1));
-                                selectedMovie.getRatings()[selectedMovie.getRatings().length - 1] = rating.getRating();
-                            }
-                            double sum = 0;
-                            for (int i = 0; i < selectedMovie.getRatings().length; i++) {
-                                sum = sum + Double.parseDouble(selectedMovie.getRatings()[i]);
-                            }
-                            avRating=sum / selectedMovie.getRatings().length;
+                            updateMovieRatings(selectedMovie, rating.getRating());
+                            averageRating = calculateAverage(selectedMovie.getRatings());
                         }
                     }
-                selectedMovie.setAvRa(avRating);
-                System.out.println("Die Bewertung für den Film ist: " + Constants.decimalFormat.format(avRating));
+                selectedMovie.setAverageRating(averageRating);
+                System.out.println("Die Bewertung für den Film ist: " + Constants.decimalFormat.format(averageRating));
             }
-        return avRating;
+        return averageRating;
+    }
+
+    private static void updateMovieRatings(Movie movie, String rating) {
+        if (movie.getRatings() == null) {
+            movie.setRatings(new ArrayList<>());
+        }
+        movie.getRatings().add(rating);
+    }
+
+    private static double calculateAverage(List<String> ratings) {
+        double sum = 0.0;
+        for (String rating : ratings) {
+            sum += Double.parseDouble(rating);
+        }
+        return sum / ratings.size();
     }
 
     public static <T extends DataItem> List<T> CSVFileReader(String filePath, Supplier<T> itemSupplier) {
@@ -59,23 +64,34 @@ public class Util {
                 item.initialize(values);
                 data.add(item);
             }
-        } catch (Exception e) {
-            System.out.println("Error reading data from CSV: " + e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Ein Fehler beim Lesen von einer CSV Datei ist aufgetreten: " + e.getMessage());
         }
         return data;
     }
 
-    public static String readInputFromUser() throws IOException {
+    public static String readInputFromUser() {
         System.out.println("Bitte geben Sie die Filmnummer ein, zu der Sie eine Bewertung wünschen");
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String input = null;
         try {
             input = reader.readLine();
             if(input.equals(""))
-                throw new IllegalArgumentException("Cannot search for a movie with empty String. Please try again!");
+                throw new IllegalArgumentException("Die Suche nach einem Film mit leerem String ist fehlgeschlagen. Bitte versuchen Sie es erneut!");
+            else if(!isNumeric(input))
+                throw new IllegalArgumentException("Nur Zahlen können eingegeben werden. Bitte versuchen Sie es erneut!");
         } catch (IOException e) {
-            System.out.println("Error reading input from console: " + e.getMessage());
+            System.out.println("Ein Fehler beim Lesen von Eingaben ist aufgetreten: " + e.getMessage());
         }
         return input;
+    }
+
+    public static boolean isNumeric(String input) {
+        try {
+            Integer.parseInt(input);
+            return true; // Input is a valid integer
+        } catch (NumberFormatException e) {
+            return false; // Input is not a valid integer
+        }
     }
 }

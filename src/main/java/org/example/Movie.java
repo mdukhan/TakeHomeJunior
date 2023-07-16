@@ -7,16 +7,14 @@ public class Movie implements DataItem  {
 
     private String movieId;
     private String title;
-
-    private String[] ratings;
-
-    private double avRa;
+    private List<String> ratings;
+    private double averageRating;
 
     public String getTitle() {
         return title;
     }
 
-    public String[] getRatings() {
+    public List<String> getRatings() {
         return ratings;
     }
 
@@ -24,16 +22,16 @@ public class Movie implements DataItem  {
         return movieId;
     }
 
-    public double getAvRa() {
-        return avRa;
+    public double getAverageRating() {
+        return averageRating;
     }
 
-    public void setRatings(String[] ratings) {
-        this.ratings = ratings;
+    public void setRatings(List<String> ratings) {
+        this.ratings = new ArrayList<>(ratings);;
     }
 
-    public void setAvRa(double avRa) {
-        this.avRa = avRa;
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
     }
 
     @Override

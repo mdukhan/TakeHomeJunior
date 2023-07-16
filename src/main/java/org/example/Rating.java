@@ -3,7 +3,6 @@ package org.example;
 public class Rating implements DataItem {
 
     private String rating;
-
     private String movieId;
 
     public String getMovieId() {

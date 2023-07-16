@@ -8,22 +8,25 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        System.out.println("Hello world!");
+    public static void main(String[] args) {
+            try {
+                // Step 1: Read movies from CSV file
+                List<Movie> movies = Util.CSVFileReader(Constants.MoviesPath, Movie::new);
 
-        //1
-        List<Movie> movies = Util.CSVFileReader(Constants.MoviesPath, Movie::new);
+                // Step 2: Read input from the user
+                String movieId = Util.readInputFromUser();
 
-        //2
-        String movieId = Util.readInputFromUser();
+                // Step 3: Find the selected movie
+                Movie selectedMovie = Util.findMovieById(movies, movieId);
 
-        //3
-        Movie selectedMovie = Util.findMoviebyId(movies, movieId);
+                // Step 4: Read ratings from CSV file
+                List<Rating> ratings = Util.CSVFileReader(Constants.RatingsPath, Rating::new);
 
-        //4
-        List<Rating> ratings = Util.CSVFileReader(Constants.RatingsPath, Rating::new);
-
-        //5
-        Util.calculateAverageRating(selectedMovie, ratings);
-    }
+                // Step 5: Calculate average rating
+                Util.calculateAverageRating(selectedMovie, ratings);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
 }
+

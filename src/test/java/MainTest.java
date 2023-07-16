@@ -50,11 +50,11 @@ public class MainTest {
 
     private static Stream<Arguments> testArguments() {
         return Stream.of(
-            Arguments.of("1", "3,92"),
-            Arguments.of("555", "3,80"),
+            Arguments.of("1", "3.92"),
+            Arguments.of("555", "3.80"),
             Arguments.of("1001", ""),
-            Arguments.of("90603", "3,67"),
-            Arguments.of("190221", "1,00"),
+            Arguments.of("90603", "3.67"),
+            Arguments.of("190221", "1.00"),
             Arguments.of("keiner", "")
         );
     }

@@ -72,9 +72,8 @@ public class Util {
 
     public static String readInputFromUser() {
         System.out.println("Bitte geben Sie die Filmnummer ein, zu der Sie eine Bewertung wünschen");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String input = null;
-        try {
+        try(BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))){
             input = reader.readLine();
             if(input.equals(""))
                 throw new IllegalArgumentException("Die Suche nach einem Film mit leerem String ist fehlgeschlagen. Bitte versuchen Sie es erneut!");

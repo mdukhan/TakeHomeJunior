@@ -4,10 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.function.Supplier;
 
 public class Util {
@@ -29,7 +26,7 @@ public class Util {
             if (selectedMovie != null&&!selectedMovie.getTitle().equals("keiner")) {
                     for (Rating rating : ratings) {
                         if (rating.getMovieId().equals(selectedMovie.getMovieId())) {
-                            updateMovieRatings(selectedMovie, rating.getRating());
+                            selectedMovie.getRatings().add(rating.getRating());
                             averageRating = calculateAverage(selectedMovie.getRatings());
                         }
                     }
@@ -37,13 +34,6 @@ public class Util {
                 System.out.println("Die Bewertung für den Film ist: " + Constants.decimalFormat.format(averageRating));
             }
         return averageRating;
-    }
-
-    private static void updateMovieRatings(Movie movie, String rating) {
-        if (movie.getRatings() == null) {
-            movie.setRatings(new ArrayList<>());
-        }
-        movie.getRatings().add(rating);
     }
 
     private static double calculateAverage(List<String> ratings) {
@@ -75,12 +65,14 @@ public class Util {
         String input = null;
         try(BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))){
             input = reader.readLine();
-            if(input.equals(""))
+            if(input.isEmpty())
                 throw new IllegalArgumentException("Die Suche nach einem Film mit leerem String ist fehlgeschlagen. Bitte versuchen Sie es erneut!");
             else if(!isNumeric(input))
                 throw new IllegalArgumentException("Nur Zahlen können eingegeben werden. Bitte versuchen Sie es erneut!");
         } catch (IOException e) {
             System.out.println("Ein Fehler beim Lesen von Eingaben ist aufgetreten: " + e.getMessage());
+        }catch(IllegalArgumentException e){
+            System.out.println(e.getMessage());
         }
         return input;
     }

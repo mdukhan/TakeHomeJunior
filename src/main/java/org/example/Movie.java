@@ -2,12 +2,13 @@ package org.example;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Movie implements DataItem  {
 
     private String movieId;
     private String title;
-    private List<String> ratings;
+    private List<String> ratings=new ArrayList<>();
     private double averageRating;
 
     public String getTitle() {
@@ -24,10 +25,6 @@ public class Movie implements DataItem  {
 
     public double getAverageRating() {
         return averageRating;
-    }
-
-    public void setRatings(List<String> ratings) {
-        this.ratings = new ArrayList<>(ratings);;
     }
 
     public void setAverageRating(double averageRating) {

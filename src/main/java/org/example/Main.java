@@ -9,7 +9,6 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-            try {
                 // Step 1: Read movies from CSV file
                 List<Movie> movies = Util.CSVFileReader(Constants.MoviesPath, Movie::new);
 
@@ -24,9 +23,6 @@ public class Main {
 
                 // Step 5: Calculate average rating
                 Util.calculateAverageRating(selectedMovie, ratings);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
         }
 }
 
